@@ -1,0 +1,2 @@
+import {NextResponse} from 'next/server';import {serverClient} from '@/lib/server-supabase';
+export async function GET(){if(!process.env.NEXT_PUBLIC_SUPABASE_URL)return NextResponse.json({gemini:false,perplexity:false});const client=await serverClient();const {data:{user}}=await client.auth.getUser();if(!user)return NextResponse.json({error:'Unauthorized'},{status:401});return NextResponse.json({gemini:Boolean(process.env.GEMINI_API_KEY),perplexity:Boolean(process.env.PERPLEXITY_API_KEY)},{headers:{'Cache-Control':'no-store'}});}
